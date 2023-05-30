@@ -21,6 +21,7 @@
     border-radius: var(--border-radius);
     background-color: var(--charcoal);
     color: #fff;
+    transition: all 0.3s ease;
 }
 
 .login-button-container {
@@ -29,4 +30,10 @@
     justify-content: flex-start;
     align-items: center;
     gap: 20px;
+}
+
+.login-container button:hover {
+    cursor: pointer;
+    background-color: #fff;
+    color: var(--charcoal);
 }
