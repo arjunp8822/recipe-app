@@ -20,6 +20,7 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(cookieParser())
+app.use('/uploads', express.static(__dirname + '/uploads'))
 
 mongoose.connect(
     'mongodb+srv://recipe:D9FSR6PGycAdoPld@recipe-app.kjl8gzx.mongodb.net/?retryWrites=true&w=majority'
@@ -70,22 +71,33 @@ app.post('/logout', (req, res) => {
 })
 
 app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
+    const { token } = req.cookies
     const { originalname, path } = req.file
     const parts = originalname.split('.')
     const ext = parts[parts.length - 1]
     const newPath = path + '.' + ext
     fs.renameSync(path, newPath)
 
-    const { title, summary, time, content } = req.body
-    const postDoc = await PostModel.create({
-        title,
-        summary,
-        time,
-        content,
-        cover: newPath
+    jwt.verify(token, secret, {}, async (err, info) => {
+        if (err) throw err
+        const { title, summary, time, content } = await req.body
+        const postDoc = await PostModel.create({
+            title,
+            summary,
+            time,
+            content,
+            cover: newPath,
+            author: info.id
+        })
+        res.json(postDoc)
     })
+})
 
-    res.json(postDoc)
+app.get('/post', async (req, res) => {
+    const posts = await PostModel.find()
+        .populate('author', ['username'])
+        .sort({ title })
+    res.json(posts)
 })
 
 app.listen(4000)

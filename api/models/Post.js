@@ -16,6 +16,9 @@ const PostSchema = new mongoose.Schema({
     cover: {
         type: String
     },
+    author: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'User'
+    }
 }, {
     timestamps: true
 })
