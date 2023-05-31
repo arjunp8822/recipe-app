@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './Login.css'
 import { Link, Navigate, redirect } from 'react-router-dom'
+import { UserContext } from '../context/UserContext'
 
 const Login = () => {
 
@@ -8,6 +9,8 @@ const Login = () => {
         username: '',
         password: ''
     })
+
+    const { setUserInfo } = useContext(UserContext)
 
     const [redirect, setRedirect] = useState(false)
 
@@ -24,6 +27,8 @@ const Login = () => {
                 credentials: 'include'
             })
             if (response.ok) {
+                const result = await response.json()
+                setUserInfo(result)
                 setRedirect(true)
             } else {
                 alert('Username or password incorrect')
@@ -34,7 +39,7 @@ const Login = () => {
     }
 
     if (redirect) {
-        return <Navigate to={'/'} />
+        return <Navigate to={'/create'} />
     }
 
     return (

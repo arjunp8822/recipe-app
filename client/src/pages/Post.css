@@ -1,0 +1,38 @@
+.post-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.post-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+}
+
+.post-img {
+    width: 400px;
+    object-fit: contain;
+    overflow: hidden;
+}
+
+.post-container h3 {
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.post-container h4 {
+    font-weight: 500;
+}
+
+.post-container h5 {
+    font-size: 14px;
+    color: var(--dark-grey);
+}
+
+.post-content {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--spring);
+    padding: 8px;
+}
